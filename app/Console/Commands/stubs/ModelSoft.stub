@@ -1,0 +1,52 @@
+<?php
+
+namespace App\Models;
+
+use App\Constants\Tables;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+
+/**
+ * Class {{ name }}
+ * About the {{ name }} Entity
+ * @package App\Models
+ * @author malayvuong
+ * @since 7.0.0
+ *
+ * ==== Properties - Fields
+ * @property integer id
+ * @property string status
+ * @property string created_at
+ * @property string updated_at
+ * @property string deleted_at
+ *
+ * === Relationships
+ *
+ */
+class {{ name }} extends Model
+{
+    use HasFactory, SoftDeletes;
+
+    /** @var string */
+    public $table = Tables::{{ name|upper }};
+
+    /** @var string[] */
+    protected $dates = [
+        'created_at', 'updated_at', 'deleted_at'
+    ];
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [];
+
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [];
+}
