@@ -13,6 +13,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
+Route::get('test', 'Controller@test');
+
+Route::get('/', static function () {
+
     return view('welcome');
 });
