@@ -4,10 +4,11 @@ namespace App\Console\Commands;
 
 use Illuminate\Support\Str;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\File;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 
-class MakeModel extends Command
+class MakeObserver extends Command
 {
     /** @var Filesystem $files */
     protected Filesystem $files;
@@ -17,14 +18,17 @@ class MakeModel extends Command
      *
      * @var string
      */
-    protected $signature = 'make:ispa-model {name} {--soft}';
+    protected $signature = 'make:ispa-observer {name}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Make custom model';
+    protected $description = 'Make Model Observer';
+
+    /** @var string $type */
+    protected string $type = 'Observers';
 
     /**
      * Command constructor
@@ -42,11 +46,11 @@ class MakeModel extends Command
      * Get the stub file
      *
      * @author malayvuong
-     * @since 7.0.0 - 2022-09-20, 23:36 ICT
+     * @since 7.0.0 - 2022-09-20, 23:34 ICT
      */
     protected function getStub(): string
     {
-        return __DIR__ . '/stubs/' . ($this->option('soft') ? 'ModelSoft' : 'Model') . '.stub';
+        return __DIR__ . '/stubs/Observer.stub';
     }
 
     /**
@@ -56,26 +60,26 @@ class MakeModel extends Command
      */
     public function handle(): void
     {
-        $eloquentName = app_path('Models/' . $this->argument('name') . '.php');
+        $observerFileName = app_path('Observers/' . $this->argument('name') . 'Observer.php');
 
-        if (! file_exists($eloquentName)) {
-            $eloquentContent = Str::replace(
-                ['{{ name }}', '{{ name|lower }}'],
-                [$this->argument('name'), Str::snake(Str::plural($this->argument('name')))],
+        if (! File::exists($observerFileName)) {
+            $observerContent = Str::replace(
+                '{{ name }}',
+                $this->argument('name'),
                 $this->files->get($this->getStub())
             );
-            //  Process to replace uppercase text here
-            $eloquentContent = Str::replace(
-                ['{{ name|upper }}'],
-                Str::upper(Str::plural($this->argument('name'))),
-                $eloquentContent
-            );
 
-            file_put_contents($eloquentName, $eloquentContent);
+            //  Check the directory
+            if (! File::exists(app_path('Observers'))) {
+                File::makeDirectory(app_path('Observers'));
+            }
 
-            $this->info($this->argument('name').'Model file created!');
+            //  Put the content file
+            File::put($observerFileName, $observerContent);
+
+            $this->info($this->argument('name') . 'Observer created successfully.');
         } else {
-            $this->warn('Model file already exists!');
+            $this->error($this->argument('name') . 'Observer already exists!');
         }
     }
 }

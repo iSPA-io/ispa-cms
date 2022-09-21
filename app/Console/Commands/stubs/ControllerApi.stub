@@ -1,0 +1,32 @@
+<?php
+
+namespace App\Http\Controllers{{ api }};
+
+use App\Http\Controllers\Controller;
+use App\Http\Controllers\{{ type }}Controller;
+
+class {{ name }}Controller extends {{ type }}Controller
+{
+    /**
+     * {{ name }}Controller constructor
+     *
+     * @author malayvuong
+     * @since 7.0.0 - 2022-09-20, 23:52 ICT
+     */
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
+    /**
+     * Get list {{ name }}
+     *
+     * @return \Illuminate\Http\JsonResponse
+     * @author malayvuong
+     * @since 7.0.0 - 2022-09-20, 23:52 ICT
+     */
+    public function index()
+    {
+        return response()->json([]);
+    }
+}

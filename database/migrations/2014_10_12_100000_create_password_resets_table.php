@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\User;
+use App\Constants\Tables;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -11,11 +13,15 @@ return new class extends Migration
      *
      * @return void
      */
-    public function up()
+    public function up(): void
     {
-        Schema::create('password_resets', function (Blueprint $table) {
-            $table->string('email')->index();
+        Schema::create(Tables::PASSWORD_RESETS, static function (Blueprint $table) {
+            $table->id();
+            $table->foreignIdFor(User::class)->nullable()->constrained()->nullOnDelete();
+            $table->string('code', 8)->nullable()->index();
             $table->string('token');
+            $table->dateTimeTz('valid_to')->nullable();
+            $table->dateTimeTz('checked_at')->nullable();
             $table->timestamp('created_at')->nullable();
         });
     }
@@ -25,8 +31,8 @@ return new class extends Migration
      *
      * @return void
      */
-    public function down()
+    public function down(): void
     {
-        Schema::dropIfExists('password_resets');
+        Schema::dropIfExists(Tables::PASSWORD_RESETS);
     }
 };
