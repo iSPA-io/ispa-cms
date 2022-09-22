@@ -6,8 +6,8 @@ If you have any question, please feel free to contact me.
 
 The roadmap is:
 
-- [ ] Init the code (Backend + Frontend)
-- [ ] Enumerate type + Enumerate -> first of things
+- [x] Init the code (Backend + Frontend)
+- [x] Enumerate type + Enumerate -> first of things
 - [ ] Audit logs for actions in admin control
 - [ ] Login screen + User information
 - [ ] Permission + User Roles
