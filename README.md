@@ -4,8 +4,10 @@ This is my personal project to learn Laravel 9.x, Vite (Vue3 Typescript) and Tai
 You guys can use this project as a boilerplate for your project.
 If you have any question, please feel free to contact me.
 
-The roadmap is:
+### View full playlist:
+- [x] Road to Release CMS: https://www.youtube.com/playlist?list=PLecsPtBqz-8IvLGsGQ_h5QIMGb8lmB3ju
 
+### The roadmap is:
 - [x] Init the code (Backend + Frontend)
 - [x] Enumerate type + Enumerate -> first of things
 - [ ] Audit logs for actions in admin control
