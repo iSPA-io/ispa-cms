@@ -17,7 +17,6 @@ class RepositoriesServiceProvider extends ServiceProvider
     public function register()
     {
         $list = [
-            TestInterface::class => function () { return new TestRepository(new User());},
         ];
 
         foreach ($list as $key => $value) {

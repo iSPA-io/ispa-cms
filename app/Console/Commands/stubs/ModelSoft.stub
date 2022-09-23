@@ -29,7 +29,7 @@ class {{ name }} extends Model
     use HasFactory, SoftDeletes;
 
     /** @var string */
-    public $table = Tables::{{ name|upper }};
+    public $table = Tables::{{ name_upper }};
 
     /** @var string[] */
     protected $dates = [

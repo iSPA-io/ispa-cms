@@ -58,24 +58,25 @@ class MakeModel extends Command
     {
         $eloquentName = app_path('Models/' . $this->argument('name') . '.php');
 
-        if (! file_exists($eloquentName)) {
-            $eloquentContent = Str::replace(
-                ['{{ name }}', '{{ name|lower }}'],
-                [$this->argument('name'), Str::snake(Str::plural($this->argument('name')))],
-                $this->files->get($this->getStub())
-            );
-            //  Process to replace uppercase text here
-            $eloquentContent = Str::replace(
-                ['{{ name|upper }}'],
-                Str::upper(Str::plural($this->argument('name'))),
-                $eloquentContent
-            );
-
-            file_put_contents($eloquentName, $eloquentContent);
-
-            $this->info($this->argument('name').'Model file created!');
-        } else {
+        if ($this->files->exists($eloquentName)) {
             $this->warn('Model file already exists!');
+            return;
         }
+
+        $eloquentContent = Str::replace(
+            ['{{ name }}', '{{ name_lower }}'],
+            [$this->argument('name'), Str::snake(Str::plural($this->argument('name')))],
+            $this->files->get($this->getStub())
+        );
+        //  Process to replace uppercase text here
+        $eloquentContent = Str::replace(
+            ['{{ name_upper }}'],
+            Str::upper(Str::plural($this->argument('name'))),
+            $eloquentContent
+        );
+
+        $this->files->put($eloquentName, $eloquentContent);
+
+        $this->info($this->argument('name').'Model file created!');
     }
 }

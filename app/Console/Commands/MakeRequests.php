@@ -18,7 +18,7 @@ class MakeRequests extends Command
      *
      * @var string
      */
-    protected $signature = 'make:ispa-requests {name} ';
+    protected $signature = 'make:ispa-request {name}';
 
     /**
      * The console command description.
@@ -62,7 +62,9 @@ class MakeRequests extends Command
         foreach ($typeArray as $type) {
             $fileName = app_path('Http/Requests/' . $this->argument('name') . '/' . $type.$this->argument('name') . 'Request.php');
 
-            if (! File::exists($fileName)) {
+            if ($this->files->exists($fileName)) {
+                $this->warn($this->argument('name') . $type . 'Request already exists!');
+            } else {
                 $fileContent = Str::replace(
                     ['{{ name }}', '{{ type }}'],
                     [$this->argument('name'), $type],
@@ -70,15 +72,13 @@ class MakeRequests extends Command
                 );
 
                 //  Check & make dir
-                if (! File::exists(app_path('Http/Requests/' . $this->argument('name')))) {
-                    File::makeDirectory(app_path('Http/Requests/' . $this->argument('name')));
+                if (! $this->files->exists(app_path('Http/Requests/' . $this->argument('name')))) {
+                    $this->files->makeDirectory(app_path('Http/Requests/' . $this->argument('name')));
                 }
                 //  File put content
-                File::put($fileName, $fileContent);
+                $this->files->put($fileName, $fileContent);
 
                 $this->info($this->argument('name') . $type . 'Request created!');
-            } else {
-                $this->warn($this->argument('name') . $type . 'Request already exists!');
             }
         }
     }

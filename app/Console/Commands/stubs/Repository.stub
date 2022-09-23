@@ -1,0 +1,9 @@
+<?php
+
+namespace App\Repositories\Eloquent;
+
+use App\Repositories\Interface\{{ name }}Interface;
+
+class {{ name }}Repository extends RepositoriesAbstract implements {{ name }}Interface
+{
+}
