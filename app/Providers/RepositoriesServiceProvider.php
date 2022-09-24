@@ -4,8 +4,6 @@ namespace App\Providers;
 
 use App\Models\User;
 use Illuminate\Support\ServiceProvider;
-use App\Repositories\Interface\TestInterface;
-use App\Repositories\Eloquent\TestRepository;
 
 class RepositoriesServiceProvider extends ServiceProvider
 {
