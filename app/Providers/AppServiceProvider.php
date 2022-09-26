@@ -11,8 +11,9 @@ class AppServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function register()
+    public function register(): void
     {
+        $this->app->register(CollectionMacro::class);
         $this->app->register(RepositoriesServiceProvider::class);
     }
 

@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use App\Models\User;
 use Illuminate\Support\ServiceProvider;
+use App\Repositories\Interface\UserInterface;
+use App\Repositories\Eloquent\UserRepository;
 
 class RepositoriesServiceProvider extends ServiceProvider
 {
@@ -15,6 +17,7 @@ class RepositoriesServiceProvider extends ServiceProvider
     public function register()
     {
         $list = [
+            UserInterface::class => function() {return new UserRepository(new User());}
         ];
 
         foreach ($list as $key => $value) {

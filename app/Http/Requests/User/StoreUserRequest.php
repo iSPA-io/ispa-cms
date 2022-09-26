@@ -1,14 +1,11 @@
 <?php
 
-namespace App\Http\Requests\Auth;
+namespace App\Http\Requests\User;
 
-use App\Traits\Forms\FormValidationTrait;
 use Illuminate\Foundation\Http\FormRequest;
 
-class SignInRequest extends FormRequest
+class StoreUserRequest extends FormRequest
 {
-    use FormValidationTrait;
-
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -16,7 +13,7 @@ class SignInRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return true;
+        return false;
     }
 
     /**
@@ -27,8 +24,7 @@ class SignInRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'username' => 'string|required',
-            'password' => 'string|required'
+            //
         ];
     }
 }
