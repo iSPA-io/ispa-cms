@@ -7,8 +7,12 @@ use App\Models\AuditLog;
 use Illuminate\Support\ServiceProvider;
 use App\Repositories\Interface\UserInterface;
 use App\Repositories\Eloquent\UserRepository;
+use App\Repositories\Interface\RoleInterface;
+use App\Repositories\Eloquent\RoleRepository;
 use App\Repositories\Interface\AuditLogInterface;
 use App\Repositories\Eloquent\AuditLogRepository;
+use App\Repositories\Interface\PermissionInterface;
+use App\Repositories\Eloquent\PermissionRepository;
 
 class RepositoriesServiceProvider extends ServiceProvider
 {
@@ -20,8 +24,10 @@ class RepositoriesServiceProvider extends ServiceProvider
     public function register(): void
     {
         $list = [
-            AuditLogInterface::class => function() {return new AuditLogRepository(new AuditLog());},
-            UserInterface::class => function() {return new UserRepository(new User());}
+            AuditLogInterface::class => AuditLogRepository::class,
+            PermissionInterface::class => PermissionRepository::class,
+            RoleInterface::class => RoleRepository::class,
+            UserInterface::class => UserRepository::class,
         ];
 
         foreach ($list as $key => $value) {

@@ -2,11 +2,11 @@
 
 namespace App\Repositories\Eloquent;
 
-use App\Repositories\Interface\AuditLogInterface;
-use App\Models\AuditLog;
+use App\Models\Role;
+use App\Repositories\Interface\RoleInterface;
 use Illuminate\Contracts\Container\BindingResolutionException;
 
-class AuditLogRepository extends RepositoriesAbstract implements AuditLogInterface
+class RoleRepository extends RepositoriesAbstract implements RoleInterface
 {
     /**
      * Init new object with the model
@@ -17,7 +17,7 @@ class AuditLogRepository extends RepositoriesAbstract implements AuditLogInterfa
      */
     public function __construct()
     {
-        $this->model = app()->make(AuditLog::class);
+        $this->model = app()->make(Role::class);
         $this->originalModel = $this->model;
     }
 }

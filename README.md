@@ -5,14 +5,14 @@ You guys can use this project as a boilerplate for your project.
 If you have any question, please feel free to contact me.
 
 ### View full playlist:
-- [x] Road to Release CMS: https://www.youtube.com/playlist?list=PLecsPtBqz-8IvLGsGQ_h5QIMGb8lmB3ju
+- Road to Release CMS: https://www.youtube.com/playlist?list=PLecsPtBqz-8IvLGsGQ_h5QIMGb8lmB3ju
 
 ### The roadmap is:
 - [x] Init the code (Backend + Frontend)
 - [x] Enumerate type + Enumerate -> first of things
-- [ ] Audit logs for actions in admin control
-- [ ] Login screen + User information
-- [ ] Permission + User Roles
+- [x] Audit logs for actions in admin control (Eps.0010)
+- [x] Login screen + User information
+- [x] Permission + User Roles (Eps.0011)
 - [ ] Website language
 - [ ] Translate keys + generate file lang (php + json)
 - [ ] Settings table
