@@ -198,6 +198,21 @@ abstract class RepositoriesAbstract implements RepositoryInterface
     }
 
     /**
+     * Create new record
+     *
+     * @author malayvuong
+     * @since 7.0.0 - 2022-09-28, 01:11 ICT
+     */
+    public function create(array $data): Model|Builder
+    {
+        $model = $this->getModel()->fill($data);
+
+        $model->save();
+
+        return $model;
+    }
+
+    /**
      * Set where condition
      *
      * @param array $where

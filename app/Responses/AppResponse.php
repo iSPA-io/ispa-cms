@@ -14,14 +14,15 @@ class AppResponse implements Responsable
     /** @var int $statusCode */
     protected int $statusCode = Response::HTTP_OK;
 
-    /** @var string|null $message */
-    protected ?string $message = null;
+    /** @var string|null $iMessage */
+    protected ?string $iMessage = null;
 
-    /** @var null $data */
-    protected $data = null;
+    /** @var string|array|object|null $iData */
+    protected string|array|null|object $iData = null;
 
     /**
      * Set data to response
+     * setData => data
      *
      * @param null $data
      *
@@ -29,9 +30,9 @@ class AppResponse implements Responsable
      * @author malayvuong
      * @since 7.0.0 - 2022-09-26, 23:18 ICT
      */
-    public function setData($data = null): self
+    public function data($data = null): self
     {
-        $this->data = $data;
+        $this->iData = $data;
 
         return $this;
     }
@@ -45,13 +46,14 @@ class AppResponse implements Responsable
      */
     public function toCamel(): self
     {
-        $this->data = collect($this->data)->toCamel();
+        $this->iData = collect($this->iData)->toCamel();
 
         return $this;
     }
 
     /**
      * Set error state
+     * setError => error
      *
      * @param bool $state
      *
@@ -59,7 +61,7 @@ class AppResponse implements Responsable
      * @author malayvuong
      * @since 7.0.0 - 2022-09-26, 23:19 ICT
      */
-    public function setError(bool $state = true): self
+    public function error(bool $state = true): self
     {
         $this->isError = $state;
 
@@ -68,6 +70,7 @@ class AppResponse implements Responsable
 
     /**
      * Set the message
+     * setMessage => message
      *
      * @param
      *
@@ -75,20 +78,21 @@ class AppResponse implements Responsable
      * @author malayvuong
      * @since 7.0.0 - 2022-09-26, 23:20 ICT
      */
-    public function setMessage($message): self
+    public function message($message): self
     {
-        $this->message = $message;
+        $this->iMessage = $message;
 
         return $this;
     }
 
     /**
      * set status code
+     * setStatus => status
      *
      * @author malayvuong
      * @since 7.0.0 - 2022-09-26, 23:22 ICT
      */
-    public function setStatus(int $statusCode): self
+    public function status(int $statusCode): self
     {
         $this->statusCode = $statusCode;
 
@@ -107,14 +111,14 @@ class AppResponse implements Responsable
     public function toResponse($request): JsonResponse|Response
     {
         $json = [
-            'message' => $this->message,
+            'message' => $this->iMessage,
         ];
 
         if ($this->isError) {
-            $json['error'] = $this->data;
+            $json['error'] = $this->iData;
         }
-        if ($this->data){
-            $json['data'] = $this->data;
+        if ($this->iData){
+            $json['data'] = $this->iData;
         }
 
         return response()->json($json, $this->statusCode);

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\V1\Admin\Auth;
 
+use App\Events\AuditLogEvent;
 use App\Responses\AppResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -35,29 +36,26 @@ class AuthController extends Controller
     public function signIn(SignInRequest $request, AppResponse $response)
     {
         if ($request->validatorFails()) {
-            return $response->setStatus(Response::HTTP_UNPROCESSABLE_ENTITY)
-                ->setMessage($request->validatorErrors())
-                ->setError();
+            return $response->error()->status(Response::HTTP_UNPROCESSABLE_ENTITY)
+                ->message($request->validatorErrors());
         }
 
         $user = $this->model->getByUsernameOrEmail($request->input('username'), [], ["*"]);
 
-        if (! Hash::check($request->input('password'), $user->password)) {
-            return $response->setStatus(Response::HTTP_NOT_ACCEPTABLE)
-                ->setMessage(__('auth.failed') . '-pws: '. $request->input('password'))
-                ->setError();
-        } else if (is_null($user)) {
-            return $response->setStatus(Response::HTTP_NOT_ACCEPTABLE)
-                ->setMessage(__('auth.failed') . '....')
-                ->setError();
+        if (is_null($user) || ! Hash::check($request->input('password'), $user->password)) {
+            return $response->error()->status(Response::HTTP_NOT_ACCEPTABLE)
+                ->message(__('auth.failed'));
         }
 
-        // Todo: generate token
+        // Token generation
+        $token = $user->createToken('auth_token')->plainTextToken;
 
-        return $response->setData([
-            'user' => $user,
-            'token' => 'token',
-            'request' => $request->all(),
-        ])->setMessage('Sign in successfully');
+        //  fire event to log user login
+        event(new AuditLogEvent('auth.sign-in', 'fa fa-sign-in-alt', 'success', get_class($user), $user->id, [], []));
+
+        return $response->data([
+            'account' => $user,
+            'token' => $token,
+        ])->message('Sign in successfully');
     }
 }
