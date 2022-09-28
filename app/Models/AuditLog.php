@@ -8,15 +8,24 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * Class {{ name }}
- * About the {{ name }} Entity
+ * Class AuditLog
+ * About the AuditLog Entity
  * @package App\Models
  * @author malayvuong
  * @since 7.0.0
  *
  * ==== Properties - Fields
  * @property integer id
- * @property string status
+ * @property string action
+ * @property string old_value
+ * @property string new_value
+ * @property string target_type
+ * @property int target_id
+ * @property string ip_address
+ * @property string user_agent
+ * @property string url
+ * @property string options
+ * @property int user_id
  * @property string created_at
  * @property string updated_at
  * @property string deleted_at
@@ -24,12 +33,12 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * === Relationships
  *
  */
-class {{ name }} extends Model
+class AuditLog extends Model
 {
     use HasFactory, SoftDeletes;
 
     /** @var string */
-    public $table = Tables::{{ name_upper }};
+    public $table = Tables::AUDIT_LOGS;
 
     /** @var string[] */
     protected $dates = [
@@ -41,12 +50,21 @@ class {{ name }} extends Model
      *
      * @var array
      */
-    protected $fillable = [];
+    protected $fillable = [
+        'action', 'old_value', 'new_value', 'target_type', 'target_id',
+        'ip_address', 'user_agent', 'url', 'options', 'user_id',
+    ];
 
     /**
      * The attributes that should be cast to native types.
      *
      * @var array
      */
-    protected $casts = [];
+    protected $casts = [
+        'old_value' => 'array',
+        'new_value' => 'array',
+        'options' => 'array',
+        'target_id' => 'integer',
+        'user_id' => 'integer',
+    ];
 }

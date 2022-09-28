@@ -7,7 +7,7 @@ use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 
-class MakeObserver extends Command
+class MakeRepository extends Command
 {
     /** @var Filesystem $files */
     protected Filesystem $files;
@@ -17,17 +17,14 @@ class MakeObserver extends Command
      *
      * @var string
      */
-    protected $signature = 'make:ispa-observer {name}';
+    protected $signature = 'make:ispa-repository {name}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Make Model Observer';
-
-    /** @var string $type */
-    protected string $type = 'Observers';
+    protected $description = 'Make repository with Model';
 
     /**
      * Command constructor
@@ -49,7 +46,7 @@ class MakeObserver extends Command
      */
     protected function getStub(): string
     {
-        return __DIR__ . '/stubs/Observer.stub';
+        return __DIR__ . '/stubs/Repository.stub';
     }
 
     /**
@@ -59,28 +56,22 @@ class MakeObserver extends Command
      */
     public function handle(): void
     {
-        $observerFileName = app_path('Observers/' . $this->argument('name') . 'Observer.php');
+        $repositoryName = app_path('Repositories/Eloquent/' . $this->argument('name') . 'Repository.php');
 
-        if ($this->files->exists($observerFileName)) {
-            $this->error($this->argument('name') . 'Observer already exists!');
+        if ($this->files->exists($repositoryName)) {
+            $this->warn($this->argument('name') . 'Repository already exists!');
             return;
         }
 
-        $observerContent = Str::replace(
-            '{{ name }}',
-            $this->argument('name'),
-            $this->files->get($this->getStub())
-        );
+        $repositoryContent = Str::replace('{{ name }}', $this->argument('name'), $this->files->get($this->getStub()));
 
-        //  Check the directory
-        if (! $this->files->exists(app_path('Observers'))) {
-            $this->files->makeDirectory(app_path('Observers'));
+        //  Check & make dir
+        if (! $this->files->exists(app_path('Repositories/Eloquent'))) {
+            $this->files->makeDirectory(app_path('Repositories/Eloquent'));
         }
 
-        //  Put the content file
-        $this->files->put($observerFileName, $observerContent);
+        $this->files->put($repositoryName, $repositoryContent);
 
-        $this->info($this->argument('name') . 'Observer created successfully.');
-
+        $this->info($this->argument('name') . 'Repository created successfully.');
     }
 }

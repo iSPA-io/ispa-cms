@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Http\Controllers{{ api }};
+namespace App\Http\Controllers\V1\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\{{ type }}Controller;
+use App\Http\Controllers\AdminController;
 
-class {{ name }}Controller extends {{ type }}Controller
+class UserController extends AdminController
 {
     /**
-     * {{ name }}Controller constructor
+     * UserController constructor
      *
      * @author malayvuong
      * @since 7.0.0 - 2022-09-20, 23:52 ICT
@@ -19,7 +19,7 @@ class {{ name }}Controller extends {{ type }}Controller
     }
 
     /**
-     * Get list {{ name }}
+     * Get list User
      *
      * @return \Illuminate\Http\JsonResponse
      * @author malayvuong

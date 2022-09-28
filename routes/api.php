@@ -18,4 +18,15 @@ Route::prefix('v1')->namespace('V1')->group(function () {
     Route::prefix('i18n')->namespace('Admin')->group(function () {
         Route::get('{version}/{type}/{locale}.json', 'I18nController@languages');
     });
+
+    Route::prefix('admin')->namespace('Admin')->group(static function () {
+        //  Route with no auth sanctum
+        Route::prefix('auth')->namespace('Auth')->group(function () {
+            Route::post('sign-in', 'AuthController@signIn');
+//        Route::post('register', 'AuthController@register');
+//        Route::post('logout', 'AuthController@logout');
+//        Route::post('refresh', 'AuthController@refresh');
+//        Route::post('me', 'AuthController@me');
+        });
+    });
 });
