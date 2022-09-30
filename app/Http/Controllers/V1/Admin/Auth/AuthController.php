@@ -33,7 +33,7 @@ class AuthController extends Controller
      * @author malayvuong
      * @since 7.0.0 - 2022-09-25, 00:10 ICT
      */
-    public function signIn(SignInRequest $request, AppResponse $response)
+    public function signIn(SignInRequest $request, AppResponse $response): AppResponse
     {
         if ($request->validatorFails()) {
             return $response->error()->status(Response::HTTP_UNPROCESSABLE_ENTITY)

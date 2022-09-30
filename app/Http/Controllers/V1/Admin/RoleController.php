@@ -27,8 +27,8 @@ class RoleController extends AdminController
      */
     public function index()
     {
-        if (! auth()->user()->tokenCan('{{ name_lower }}.viewAny') {
-            return 403;
+        if (! auth()->user()->tokenCan('{{ name_lower }}.viewAny')) {
+            return response()->json([], 403);
         }
 
         return response()->json([]);

@@ -32,7 +32,7 @@ trait FormValidationTrait
     {
         $errors = [];
 
-        foreach ($this->getValidatorInstance()->errors()->toArray() as $key => $value) {
+        foreach ($this->getValidatorInstance()->errors()->toArray() as $value) {
             foreach ($value as $message) {
                 $errors[] = $message;
             }
