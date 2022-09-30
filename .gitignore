@@ -5,7 +5,8 @@ yarn-error.log
 
 # Laravel 4 specific
 bootstrap/compiled.php
-app/storage/
+app/storage
+storage/test-coverage
 
 # Laravel 5 & Lumen specific
 public/storage
