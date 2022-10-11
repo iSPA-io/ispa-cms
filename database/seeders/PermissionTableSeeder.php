@@ -20,6 +20,7 @@ class PermissionTableSeeder extends Seeder
             Tables::AUDIT_LOGS => ['viewAny', 'view'],
             Tables::ENUMERATES => ['viewAny', 'view', 'create', 'edit', 'update', 'delete'],
             Tables::ENUMERATES_TYPE => ['viewAny', 'view', 'create', 'edit', 'update', 'delete'],
+            Tables::LANGUAGES => ['viewAny', 'view', 'create', 'edit', 'update', 'delete', 'locked'],
             Tables::PERMISSIONS => ['viewAny', 'view', 'create', 'edit', 'update', 'delete', 'group_delete'],
             Tables::ROLES => ['viewAny', 'view', 'create', 'edit', 'update', 'delete'],
             Tables::USERS => ['viewAny', 'view', 'create', 'edit', 'update', 'delete', 'email', 'username', 'mobile', 'role', 'type', 'password'],
@@ -58,6 +59,7 @@ class PermissionTableSeeder extends Seeder
             'role' => 'Change User Role | Thay đổi quyền của User',
             'type' => 'Change User Type | Thay đổi loại của User',
             'password' => 'Reset Password | Đặt lại mật khẩu',
+            'locked' => 'Lock to read only | Khóa chỉ xem',
             default => $action,
         };
     }

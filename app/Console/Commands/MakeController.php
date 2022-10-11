@@ -75,8 +75,8 @@ class MakeController extends Command
         }
 
         $controllerFileContent = Str::replace(
-            ['{{ name }}', '{{ api }}', '{{ type }}'],
-            [$this->argument('name'), '\\' . $this->option('v') . '\Admin', 'Admin'],
+            ['{{ name }}', '{{ name_lower }}', '{{ api }}', '{{ type }}'],
+            [$this->argument('name'), str($this->argument('name'))->lower(), '\\' . $this->option('v') . '\Admin', 'Admin'],
             $this->files->get($this->getStub())
         );
         //  Make directory

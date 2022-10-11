@@ -13,7 +13,7 @@ If you have any question, please feel free to contact me.
 - [x] Audit logs for actions in admin control (Eps.0010)
 - [x] Login screen + User information
 - [x] Permission + User Roles (Eps.0011)
-- [ ] Website language
+- [x] Website language
 - [ ] Translate keys + generate file lang (php + json)
 - [ ] Settings table
 - [ ] Menu management

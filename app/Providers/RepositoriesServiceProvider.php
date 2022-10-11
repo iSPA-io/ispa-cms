@@ -11,6 +11,8 @@ use App\Repositories\Interface\RoleInterface;
 use App\Repositories\Eloquent\RoleRepository;
 use App\Repositories\Interface\AuditLogInterface;
 use App\Repositories\Eloquent\AuditLogRepository;
+use App\Repositories\Interface\LanguageInterface;
+use App\Repositories\Eloquent\LanguageRepository;
 use App\Repositories\Interface\PermissionInterface;
 use App\Repositories\Eloquent\PermissionRepository;
 
@@ -25,6 +27,7 @@ class RepositoriesServiceProvider extends ServiceProvider
     {
         $list = [
             AuditLogInterface::class => AuditLogRepository::class,
+            LanguageInterface::class => LanguageRepository::class,
             PermissionInterface::class => PermissionRepository::class,
             RoleInterface::class => RoleRepository::class,
             UserInterface::class => UserRepository::class,
