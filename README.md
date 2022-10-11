@@ -14,6 +14,8 @@ If you have any question, please feel free to contact me.
 - [x] Login screen + User information
 - [x] Permission + User Roles (Eps.0011)
 - [x] Website language
+- [x] Unit test for sign in
+- [ ] Website language
 - [ ] Translate keys + generate file lang (php + json)
 - [ ] Settings table
 - [ ] Menu management
