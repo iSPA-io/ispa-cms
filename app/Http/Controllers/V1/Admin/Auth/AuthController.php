@@ -35,15 +35,10 @@ class AuthController extends Controller
      */
     public function signIn(SignInRequest $request, AppResponse $response): AppResponse
     {
-        if ($request->validatorFails()) {
-            return $response->error()->status(Response::HTTP_UNPROCESSABLE_ENTITY)
-                ->message($request->validatorErrors());
-        }
-
         $user = $this->model->getByUsernameOrEmail($request->input('username'), [], ["*"]);
 
         if (is_null($user) || ! Hash::check($request->input('password'), $user->password)) {
-            return $response->error()->status(Response::HTTP_NOT_ACCEPTABLE)
+            return $response->failed()->code(Response::HTTP_NOT_ACCEPTABLE)
                 ->message(__('auth.failed'));
         }
 

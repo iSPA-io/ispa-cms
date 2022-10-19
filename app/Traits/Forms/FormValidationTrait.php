@@ -2,13 +2,13 @@
 
 namespace App\Traits\Forms;
 
+use App\Constants\Constants;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpFoundation\Response;
 
 trait FormValidationTrait
 {
-    private bool $failedCheckValidate = false;
-
     /**
      * Check for validator fail status
      *
@@ -24,11 +24,11 @@ trait FormValidationTrait
     /**
      * Get validator error messages
      *
-     * @return string
+     * @return array
      * @author malayvuong
      * @since 7.0.0 - 2022-09-26, 23:32 ICT
      */
-    public function validatorErrors(): string
+    public function validatorErrors(): array
     {
         $errors = [];
 
@@ -38,7 +38,7 @@ trait FormValidationTrait
             }
         }
 
-        return implode('<br />', $errors);
+        return $errors;
     }
 
     /**
@@ -48,12 +48,11 @@ trait FormValidationTrait
      * @since 7.0.0 - 2022-09-26, 23:38 ICT
      * @author malayvuong
      */
-    protected function failedValidation(Validator $validator)
+    protected function failedValidation(Validator $validator): void
     {
-        if ($this->failedCheckValidate) {
-            throw (new ValidationException($validator))
-                ->errorBag($this->errorBag)
-                ->redirectTo($this->getRedirectUrl());
-        }
+        throw new ValidationException($validator, response()->json([
+            'status' => Constants::STATUS_FAILED,
+            'message' => $this->validatorErrors(),
+        ], Response::HTTP_NOT_ACCEPTABLE));
     }
 }
