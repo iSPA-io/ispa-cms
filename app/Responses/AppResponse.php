@@ -66,6 +66,8 @@ class AppResponse implements Responsable
      */
     public function error(): self
     {
+        $this->code(Response::HTTP_BAD_REQUEST);
+
         return $this->setStatus(Constants::STATUS_ERROR);
     }
 
@@ -77,6 +79,8 @@ class AppResponse implements Responsable
      */
     public function failed(): static
     {
+        $this->code(Response::HTTP_NOT_ACCEPTABLE);
+
         return $this->setStatus(Constants::STATUS_FAILED);
     }
 
@@ -123,9 +127,11 @@ class AppResponse implements Responsable
     public function toResponse($request): JsonResponse|Response
     {
         $json = [
-            'message' => $this->iMessage,
             'status' => $this->iStatus,
         ];
+        if (! empty($this->iMessage)) {
+            $json['message'] = $this->iMessage;
+        }
         if (! empty($this->iData)) {
             $json['data'] = $this->iData;
         }

@@ -38,8 +38,7 @@ class AuthController extends Controller
         $user = $this->model->getByUsernameOrEmail($request->input('username'), [], ["*"]);
 
         if (is_null($user) || ! Hash::check($request->input('password'), $user->password)) {
-            return $response->failed()->code(Response::HTTP_NOT_ACCEPTABLE)
-                ->message(__('auth.failed'));
+            return $response->failed()->message(__('auth.failed'));
         }
 
         // Token generation

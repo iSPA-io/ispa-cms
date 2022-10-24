@@ -28,5 +28,16 @@ Route::prefix('v1')->namespace('V1')->group(function () {
 //        Route::post('refresh', 'AuthController@refresh');
 //        Route::post('me', 'AuthController@me');
         });
+
+        //  Account
+        Route::controller('AccountController')->prefix('account')->middleware('auth:sanctum')->group(function () {
+            Route::post('change-password', 'changePassword');
+            Route::post('sign-out', 'signOut');
+        });
+
+        //  Language
+        Route::controller('LanguageController')->prefix('languages')->group(function () {
+            Route::get('/', 'index');
+        });
     });
 });

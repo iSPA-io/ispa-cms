@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\V1\Admin;
 
+use App\Responses\AppResponse;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\AdminController;
 use App\Repositories\Interface\LanguageInterface;
@@ -28,16 +29,18 @@ class LanguageController extends AdminController
     /**
      * Get list Language
      *
-     * @return JsonResponse
+     * @param AppResponse $res
+     *
+     * @return AppResponse
      * @author malayvuong
      * @since 7.0.0 - 2022-09-20, 23:52 ICT
      */
-    public function index()
+    public function index(AppResponse $res): AppResponse
     {
-        if (! auth()->user()->tokenCan('language.viewAny')) {
-            return response()->json([], 403);
-        }
+//        if (! auth()->user()->tokenCan('language.viewAny')) {
+//            return $res->failed()->code(403);
+//        }
 
-        return response()->json([]);
+        return $res->data($this->model->getModel()->all());
     }
 }
