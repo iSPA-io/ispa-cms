@@ -22,7 +22,7 @@ class AccountController extends AdminController
      */
     public function signOut(AdminSignOutRequest $request, AppResponse $res): AppResponse
     {
-        $request->user()->currentAccessToken()->delete();
+        user()->currentAccessToken()->delete();
 
         return $res->message('Sign out successfully');
     }
@@ -40,12 +40,12 @@ class AccountController extends AdminController
     public function changePassword(AdminChangePasswordRequest $request, AppResponse $res): AppResponse
     {
         //  Process to check current password
-        if (!Hash::check($request->current_password, $request->user()->password)) {
+        if (!Hash::check($request->input('current_password'), $request->user()->password)) {
             return $res->failed()->message('Current password is incorrect');
         }
         //  Process to change password
         $request->user()->update([
-            'password' => Hash::make($request->new_password),
+            'password' => Hash::make($request->input('new_password')),
         ]);
 
         return $res->message('Change password successfully');

@@ -13,8 +13,7 @@ class AdminChangePasswordRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        //  Todo: check permission
-        return true; // $this->user()->can('change-password');
+        return true;
     }
 
     /**
