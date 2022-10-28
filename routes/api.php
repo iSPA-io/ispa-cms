@@ -29,15 +29,24 @@ Route::prefix('v1')->namespace('V1')->group(function () {
 //        Route::post('me', 'AuthController@me');
         });
 
-        //  Account
-        Route::controller('AccountController')->prefix('account')->middleware('auth:sanctum')->group(function () {
-            Route::post('change-password', 'changePassword');
-            Route::post('sign-out', 'signOut');
-        });
+        Route::group(['middleware' => ['auth:sanctum']], static function () {
+            //  Account
+            Route::controller('AccountController')->prefix('account')->group(function () {
+                Route::get('', 'account');
+                Route::post('change-password', 'changePassword');
+                Route::post('sign-out', 'signOut');
+            });
 
-        //  Language
-        Route::controller('LanguageController')->prefix('languages')->group(function () {
-            Route::get('/', 'index');
+            //  Language
+            Route::controller('LanguageController')->prefix('languages')->group(function () {
+                Route::get('/', 'index');
+            });
+
+            //  Enumerate
+            Route::controller('EnumerateTypeController')->prefix('enumerate/type')->group(function () {
+                Route::get('/', 'index');
+                Route::post('/', 'store');
+            });
         });
     });
 });

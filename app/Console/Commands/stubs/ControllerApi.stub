@@ -4,6 +4,7 @@ namespace App\Http\Controllers{{ api }};
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\{{ type }}Controller;
+use App\Repositories\Interface\{{ name }}Interface;
 
 class {{ name }}Controller extends {{ type }}Controller
 {
@@ -12,7 +13,7 @@ class {{ name }}Controller extends {{ type }}Controller
     /**
      * {{ name }}Controller constructor
      *
-     * @param LanguageInterface $model
+     * @param {{ name }}Interface $model
      *
      * @author malayvuong
      * @since 7.0.0 - 2022-09-20, 23:52 ICT
@@ -38,5 +39,32 @@ class {{ name }}Controller extends {{ type }}Controller
         }
 
         return response()->json([]);
+    }
+
+    /**
+     * Create new {{ name }}
+     *
+     * @param Store{{ name }}Request $request
+     * @param AppResponse $res
+     *
+     * @return AppResponse
+     * @author malayvuong
+     * @since 7.0.0 - 2022-10-26, 23:46 ICT
+     */
+    public function store(Store{{ name }}Request $request, AppResponse $res): AppResponse
+    {
+//        if (! user()->can('create', $this->model->getModel())) {
+//            return $res->failed()->message('You do not have permission to create this resource.')->code(Response::HTTP_FORBIDDEN);
+//        }
+
+        $model = $this->model->getModel()->fill($request->validated());
+
+        try {
+            $model->save();
+        } catch (ErrorException $e) {
+            return $res->failed()->message($e->getMessage())->code(Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+
+        return $res->data($model)->code(Response::HTTP_CREATED)->message('Create successfully.');
     }
 }

@@ -11,6 +11,17 @@ use App\Http\Requests\Account\AdminChangePasswordRequest;
 class AccountController extends AdminController
 {
     /**
+     * Get account information
+     *
+     * @author malayvuong
+     * @since 7.0.0 - 2022-10-26, 22:55 ICT
+     */
+    public function account(AppResponse $res): AppResponse
+    {
+        return $res->data(user());
+    }
+
+    /**
      * Sign out
      *
      * @param AdminSignOutRequest $request

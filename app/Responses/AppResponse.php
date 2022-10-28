@@ -85,6 +85,17 @@ class AppResponse implements Responsable
     }
 
     /**
+     * Set no permission message default
+     *
+     * @author malayvuong
+     * @since 7.0.0 - 2022-10-27, 00:00 ICT
+     */
+    public function noPermission(): AppResponse
+    {
+        return $this->failed()->code(Response::HTTP_FORBIDDEN)->message('You do not have permission to access this resource.');
+    }
+
+    /**
      * Set the message
      * setMessage => message
      *

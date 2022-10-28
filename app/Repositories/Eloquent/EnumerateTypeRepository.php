@@ -2,11 +2,11 @@
 
 namespace App\Repositories\Eloquent;
 
-use App\Models\{{ name }};
-use App\Repositories\Interface\{{ name }}Interface;
+use App\Models\EnumerateType;
+use App\Repositories\Interface\EnumerateTypeInterface;
 use Illuminate\Contracts\Container\BindingResolutionException;
 
-class {{ name }}Repository extends RepositoriesAbstract implements {{ name }}Interface
+class EnumerateTypeRepository extends RepositoriesAbstract implements EnumerateTypeInterface
 {
     /**
      * Init new object with the model
@@ -17,7 +17,7 @@ class {{ name }}Repository extends RepositoriesAbstract implements {{ name }}Int
      */
     public function __construct()
     {
-        $this->model = app()->make({{ name }}::class);
+        $this->model = app()->make(EnumerateType::class);
         $this->originalModel = $this->model;
     }
 }

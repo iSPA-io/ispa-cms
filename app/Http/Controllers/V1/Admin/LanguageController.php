@@ -37,7 +37,7 @@ class LanguageController extends AdminController
      */
     public function index(AppResponse $res): AppResponse
     {
-//        if (! auth()->user()->tokenCan('language.viewAny')) {
+//        if (! user()->tokenCan('language.viewAny')) {
 //            return $res->failed()->code(403);
 //        }
 
