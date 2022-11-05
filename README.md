@@ -5,16 +5,29 @@ You guys can use this project as a boilerplate for your project.
 If you have any question, please feel free to contact me.
 
 ### View full playlist:
-- [x] Road to Release CMS: https://www.youtube.com/playlist?list=PLecsPtBqz-8IvLGsGQ_h5QIMGb8lmB3ju
+- Road to Release CMS: https://www.youtube.com/playlist?list=PLecsPtBqz-8IvLGsGQ_h5QIMGb8lmB3ju
 
 ### The roadmap is:
 - [x] Init the code (Backend + Frontend)
+- [ ] Code the Utils for the Backend & Frontend
+  - [x] Response interface
+  - [x] Form Validation Trait
+  - [x] iAlert (Frontend)
 - [x] Enumerate type + Enumerate -> first of things
-- [ ] Audit logs for actions in admin control
-- [ ] Login screen + User information
-- [ ] Permission + User Roles
+  - [x] Enumerate Type management (Frontend - Modules)
+  - [x] Create Enumerate Type
+  - [x] Update Enumerate Type
+  - [ ] Delete Enumerate Type -> Delete the Enumerate on relationship
+  - [ ] Check the permission about management of Enumerate Type
+  - [ ] Write Unit Test for Backend (APIs)
+- [x] Audit logs for actions in admin control (Eps.0010)
+- [x] Login screen + User information
+- [x] Permission + User Roles (Eps.0011)
+- [x] Website language
+- [x] Unit test for sign in
 - [ ] Website language
 - [ ] Translate keys + generate file lang (php + json)
+  - [ ] Change all the label to translate keys
 - [ ] Settings table
 - [ ] Menu management
 - [ ] Slugs + SEO tables

@@ -2,51 +2,56 @@
 
 namespace App\Responses;
 
+use App\Constants\Constants;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Contracts\Support\Responsable;
 use Symfony\Component\HttpFoundation\Response;
 
 class AppResponse implements Responsable
 {
-    /** @var bool $isError */
-    protected bool $isError = false;
+    /** @var string $iStatus */
+    protected string $iStatus = Constants::STATUS_SUCESS;
 
-    /** @var int $statusCode */
-    protected int $statusCode = Response::HTTP_OK;
+    /** @var string|array|object|null $iData */
+    protected string|array|null|object $iData = null;
 
     /** @var string|null $iMessage */
     protected ?string $iMessage = null;
 
-    /** @var string|array|object|null $iData */
-    protected string|array|null|object $iData = null;
+    /** @var int $statusCode */
+    protected int $statusCode = Response::HTTP_OK;
 
     /**
      * Set data to response
      * setData => data
      *
      * @param null $data
+     * @param bool $isCamel
      *
      * @return AppResponse
      * @author malayvuong
      * @since 7.0.0 - 2022-09-26, 23:18 ICT
      */
-    public function data($data = null): self
+    public function data($data = null, bool $isCamel = false): self
     {
-        $this->iData = $data;
+        $this->iData = $isCamel ? collect($data)->toCamel() : $data;
 
         return $this;
     }
 
     /**
-     * Set data return to camel case
+     * Set status to response
+     * setStatus => status
+     *
+     * @param string $status
      *
      * @return AppResponse
+     * @since 7.0.0 - 2022-10-20, 00:14 ICT
      * @author malayvuong
-     * @since 7.0.0 - 2022-09-26, 23:18 ICT
      */
-    public function toCamel(): self
+    public function setStatus(string $status = Constants::STATUS_SUCESS): static
     {
-        $this->iData = collect($this->iData)->toCamel();
+        $this->iStatus = $status;
 
         return $this;
     }
@@ -55,17 +60,39 @@ class AppResponse implements Responsable
      * Set error state
      * setError => error
      *
-     * @param bool $state
-     *
      * @return AppResponse
      * @author malayvuong
      * @since 7.0.0 - 2022-09-26, 23:19 ICT
      */
-    public function error(bool $state = true): self
+    public function error(): self
     {
-        $this->isError = $state;
+        $this->code(Response::HTTP_BAD_REQUEST);
 
-        return $this;
+        return $this->setStatus(Constants::STATUS_ERROR);
+    }
+
+    /**
+     * Set failed state
+     *
+     * @author malayvuong
+     * @since 7.0.0 - 2022-10-20, 00:15 ICT
+     */
+    public function failed(): static
+    {
+        $this->code(Response::HTTP_NOT_ACCEPTABLE);
+
+        return $this->setStatus(Constants::STATUS_FAILED);
+    }
+
+    /**
+     * Set no permission message default
+     *
+     * @author malayvuong
+     * @since 7.0.0 - 2022-10-27, 00:00 ICT
+     */
+    public function noPermission(): AppResponse
+    {
+        return $this->failed()->code(Response::HTTP_FORBIDDEN)->message('You do not have permission to access this resource.');
     }
 
     /**
@@ -92,7 +119,7 @@ class AppResponse implements Responsable
      * @author malayvuong
      * @since 7.0.0 - 2022-09-26, 23:22 ICT
      */
-    public function status(int $statusCode): self
+    public function code(int $statusCode): self
     {
         $this->statusCode = $statusCode;
 
@@ -111,13 +138,12 @@ class AppResponse implements Responsable
     public function toResponse($request): JsonResponse|Response
     {
         $json = [
-            'message' => $this->iMessage,
+            'status' => $this->iStatus,
         ];
-
-        if ($this->isError) {
-            $json['error'] = $this->iData;
+        if (! empty($this->iMessage)) {
+            $json['message'] = $this->iMessage;
         }
-        if ($this->iData){
+        if (! empty($this->iData)) {
             $json['data'] = $this->iData;
         }
 

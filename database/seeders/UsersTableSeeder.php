@@ -30,6 +30,6 @@ class UsersTableSeeder extends Seeder
 
         $user = User::create($user);
 
-        //  Todo: Set role later
+        $user->roles()->sync([1]);
     }
 }

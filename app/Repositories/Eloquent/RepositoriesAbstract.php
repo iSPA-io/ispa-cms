@@ -23,11 +23,11 @@ abstract class RepositoriesAbstract implements RepositoryInterface
      * @author malayvuong
      * @since 7.0.0 - 2022-09-19, 22:55 ICT
      */
-    public function __construct(Model $model)
-    {
-        $this->model = $model;
-        $this->originalModel = $model;
-    }
+//    public function __construct(Model $model)
+//    {
+//        $this->model = $model;
+//        $this->originalModel = $model;
+//    }
 
     /**
      * Get Model instance
