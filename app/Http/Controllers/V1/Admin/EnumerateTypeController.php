@@ -6,11 +6,13 @@ use Exception;
 use ErrorException;
 use App\Responses\AppResponse;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\AdminController;
 use Symfony\Component\HttpFoundation\Response;
 use App\Repositories\Interface\EnumerateTypeInterface;
 use App\Http\Requests\EnumerateType\GetEnumerateTypeRequest;
 use App\Http\Requests\EnumerateType\StoreEnumerateTypeRequest;
+use App\Http\Requests\EnumerateType\UpdateEnumerateTypeRequest;
 
 class EnumerateTypeController extends AdminController
 {
@@ -69,12 +71,80 @@ class EnumerateTypeController extends AdminController
 
         $model = $this->model->getModel()->fill($request->validated());
 
+        DB::beginTransaction();
+
         try {
             $model->save();
         } catch (ErrorException $e) {
+            DB::rollBack();
             return $res->failed()->message($e->getMessage())->code(Response::HTTP_INTERNAL_SERVER_ERROR);
         }
 
+        DB::commit();
+
         return $res->data($model)->code(Response::HTTP_CREATED)->message('Create successfully.');
+    }
+
+    /**
+     * Get item to edit
+     *
+     * @param int $id
+     * @param AppResponse $res
+     *
+     * @return AppResponse
+     * @author malayvuong
+     * @since 7.0.0 - 2022-11-05, 23:53 ICT
+     */
+    public function edit(int $id, AppResponse $res): AppResponse
+    {
+//        if (! user()->can('update', $this->model->getModel())) {
+//            return $res->failed()->message('You do not have permission to update this resource.')->code(Response::HTTP_FORBIDDEN);
+//        }
+
+        $model = $this->model->find($id);
+
+        if (empty($model)) {
+            return $res->error()->message('Item not found.');
+        }
+
+        return $res->data($model);
+    }
+
+    /**
+     * Process to update item
+     *
+     * @param int $id
+     * @param UpdateEnumerateTypeRequest $request
+     * @param AppResponse $res
+     *
+     * @return AppResponse
+     * @author malayvuong
+     * @since 7.0.0 - 2022-11-06, 00:07 ICT
+     */
+    public function update(int $id, UpdateEnumerateTypeRequest $request, AppResponse $res): AppResponse
+    {
+//        if (! user()->can('update', $this->model->getModel())) {
+//            return $res->failed()->message('You do not have permission to update this resource.')->code(Response::HTTP_FORBIDDEN);
+//        }
+
+        $model = $this->model->find($id);
+
+        if (empty($model)) {
+            return $res->error()->message('Item not found.');
+        }
+
+        $model = $model->fill($request->validated());
+
+        DB::beginTransaction();
+        try {
+            $model->save();
+        } catch (ErrorException $e) {
+            DB::rollBack();
+            return $res->failed()->message($e->getMessage())->code(Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+
+        DB::commit();
+
+        return $res->message('Update item successfully.')->code(Response::HTTP_ACCEPTED);
     }
 }

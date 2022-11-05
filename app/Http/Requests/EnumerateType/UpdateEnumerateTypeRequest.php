@@ -2,10 +2,13 @@
 
 namespace App\Http\Requests\EnumerateType;
 
+use App\Traits\Forms\FormValidationTrait;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateEnumerateTypeRequest extends FormRequest
 {
+    use FormValidationTrait;
+
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -13,7 +16,7 @@ class UpdateEnumerateTypeRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +27,8 @@ class UpdateEnumerateTypeRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => 'required|string|max:255',
+            'key_name' => 'required|string|max:50',
         ];
     }
 }

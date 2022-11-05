@@ -43,10 +43,11 @@ Route::prefix('v1')->namespace('V1')->group(function () {
             });
 
             //  Enumerate
-            Route::controller('EnumerateTypeController')->prefix('enumerate/type')->group(function () {
-                Route::get('/', 'index');
-                Route::post('/', 'store');
-            });
+            Route::resources([
+                'enumerate/type' => 'EnumerateTypeController'
+            ], [
+                'except' => ['create', 'show']
+            ]);
         });
     });
 });

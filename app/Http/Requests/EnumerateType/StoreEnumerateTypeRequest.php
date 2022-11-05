@@ -2,10 +2,13 @@
 
 namespace App\Http\Requests\EnumerateType;
 
+use App\Traits\Forms\FormValidationTrait;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreEnumerateTypeRequest extends FormRequest
 {
+    use FormValidationTrait;
+
     /**
      * Determine if the user is authorized to make this request.
      *
