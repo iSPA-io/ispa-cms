@@ -12,11 +12,11 @@ If you have any question, please feel free to contact me.
 - [ ] Code the Utils for the Backend & Frontend
   - [x] Response interface
   - [x] Form Validation Trait
-  - [x] iAlert (Frontend)
+  - [x] iAlert (Frontend) (Eps.0021)
 - [x] Enumerate type + Enumerate -> first of things
   - [x] Enumerate Type management (Frontend - Modules)
   - [x] Create Enumerate Type
-  - [x] Update Enumerate Type
+  - [x] Update Enumerate Type (Eps.0021)
   - [ ] Delete Enumerate Type -> Delete the Enumerate on relationship
   - [ ] Check the permission about management of Enumerate Type
   - [ ] Write Unit Test for Backend (APIs)
