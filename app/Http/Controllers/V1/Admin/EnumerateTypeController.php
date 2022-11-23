@@ -4,12 +4,15 @@ namespace App\Http\Controllers\V1\Admin;
 
 use Exception;
 use ErrorException;
+use App\Constants\Tables;
 use App\Responses\AppResponse;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Artisan;
 use App\Http\Controllers\AdminController;
 use Symfony\Component\HttpFoundation\Response;
 use App\Repositories\Interface\EnumerateTypeInterface;
+use App\Http\Resources\Enumerate\EnumerateTypeCollection;
 use App\Http\Requests\EnumerateType\GetEnumerateTypeRequest;
 use App\Http\Requests\EnumerateType\StoreEnumerateTypeRequest;
 use App\Http\Requests\EnumerateType\UpdateEnumerateTypeRequest;
@@ -48,9 +51,12 @@ class EnumerateTypeController extends AdminController
 //        if (! user()->can('viewAny', $this->model->getModel())) {
 //            return $res->noPermission();
 //        }
-        $data = $this->model->get([]);
+        $data = $this->model->get([
+            'perPage' => $request->input('perPage', 10),
+            'latest' => true,
+        ]);
 
-        return $res->data($data);
+        return $res->data(new EnumerateTypeCollection($data));
     }
 
     /**
@@ -65,8 +71,8 @@ class EnumerateTypeController extends AdminController
      */
     public function store(StoreEnumerateTypeRequest $request, AppResponse $res): AppResponse
     {
-//        if (! user()->can('create', $this->model->getModel())) {
-//            return $res->failed()->message('You do not have permission to create this resource.')->code(Response::HTTP_FORBIDDEN);
+//        if (! user()->tokenCan('enumerate_type.create')) {
+//            return $res->noPermission();
 //        }
 
         $model = $this->model->getModel()->fill($request->validated());
@@ -75,6 +81,8 @@ class EnumerateTypeController extends AdminController
 
         try {
             $model->save();
+
+            Artisan::call('ispa:export-db '.Tables::ENUMERATES_TYPE);
         } catch (ErrorException $e) {
             DB::rollBack();
             return $res->failed()->message($e->getMessage())->code(Response::HTTP_INTERNAL_SERVER_ERROR);
@@ -138,6 +146,8 @@ class EnumerateTypeController extends AdminController
         DB::beginTransaction();
         try {
             $model->save();
+
+            Artisan::call('ispa:export-db '.Tables::ENUMERATES_TYPE);
         } catch (ErrorException $e) {
             DB::rollBack();
             return $res->failed()->message($e->getMessage())->code(Response::HTTP_INTERNAL_SERVER_ERROR);

@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
  * Class User
@@ -82,6 +83,7 @@ class User extends Authenticatable
     /**
      * Roles relationship
      *
+     * @return BelongsToMany
      * @author malayvuong
      * @since 7.0.0 - 2022-09-29, 00:26 ICT
      */

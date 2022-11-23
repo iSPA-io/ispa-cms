@@ -31,7 +31,6 @@ return new class extends Migration
             $table->boolean('is_locked')->default(false);
 
             $table->char('status', 50)->nullable();
-            $table->foreign('status')->references('enum_key')->on(Tables::ENUMERATES)->nullOnDelete();
 
             $table->timestamps();
             $table->softDeletes();

@@ -19,7 +19,7 @@ return new class extends Migration
             $table->id();
             $table->char('name', 100)->nullable()->comment('Role name');
             $table->text('custom')->nullable();
-            $table->foreignIdFor(User::class)->nullable()->constrained()->nullOnDelete();
+            $table->integer('user_id')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

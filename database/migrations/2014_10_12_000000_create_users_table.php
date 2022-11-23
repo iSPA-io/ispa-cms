@@ -27,10 +27,9 @@ return new class extends Migration
 
             $table->tinyInteger('type')->default(UserType::GUESS);
             $table->tinyInteger('level')->default(99);
-            $table->foreignId('parent_id')->nullable()->references('id')->on(Tables::USERS)->nullOnDelete();
+            $table->integer('parent_id')->nullable();
 
             $table->char('status', 50)->nullable();
-            $table->foreign('status')->references('enum_key')->on(Tables::ENUMERATES)->nullOnDelete();
 
             $table->timestamps();
             $table->softDeletes();

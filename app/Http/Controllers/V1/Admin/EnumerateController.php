@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers\V1\Admin;
 
-use App\Http\Controllers\Controller;
+use App\Responses\AppResponse;
 use App\Http\Controllers\AdminController;
+use App\Repositories\Interface\EnumerateInterface;
+use App\Http\Requests\Enumerate\GetEnumerateRequest;
+use App\Http\Resources\Enumerate\EnumerateCollection;
 
 class EnumerateController extends AdminController
 {
@@ -12,7 +15,7 @@ class EnumerateController extends AdminController
     /**
      * EnumerateController constructor
      *
-     * @param LanguageInterface $model
+     * @param EnumerateInterface $model
      *
      * @author malayvuong
      * @since 7.0.0 - 2022-09-20, 23:52 ICT
@@ -27,16 +30,24 @@ class EnumerateController extends AdminController
     /**
      * Get list Enumerate
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @param GetEnumerateRequest $request
+     * @param AppResponse $res
+     *
+     * @return AppResponse
      * @author malayvuong
      * @since 7.0.0 - 2022-09-20, 23:52 ICT
      */
-    public function index()
+    public function index(GetEnumerateRequest $request, AppResponse $res): AppResponse
     {
-        if (! auth()->user()->tokenCan('enumerate.viewAny')) {
-            return response()->json([], 403);
+        if (! user()->tokenCan('enumerate.viewAny')) {
+            return $res->noPermission();
         }
 
-        return response()->json([]);
+        $data = $this->model->get([
+            'perPage' => $request->input('perPage', 10),
+            'latest' => true,
+        ]);
+
+        return $res->data(new EnumerateCollection($data));
     }
 }

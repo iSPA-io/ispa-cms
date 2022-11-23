@@ -123,7 +123,7 @@ abstract class RepositoriesAbstract implements RepositoryInterface
         $params = array_merge([
             'where' => [],
             'order' => [],
-            'pageSize' => -1,
+            'perPage' => -1,
             'take' => null,
             'select' => ['*'],
             'with' => [],
@@ -139,7 +139,7 @@ abstract class RepositoriesAbstract implements RepositoryInterface
         $data = $this->model;
 
         if ($params['latest']) {
-            if (typeof($params['latest']) == 'string') {
+            if (is_string($params['latest'])) {
                 $data = $data->latest($params['latest']);
             } else {
                 $data = $data->latest();
@@ -186,8 +186,8 @@ abstract class RepositoriesAbstract implements RepositoryInterface
             $result = $data->first();
         } else if ($params['take'] > 1) {
             $result = $data->take($params['take'])->get();
-        } else if (isset($params['pageSize']) && $params['pageSize'] > -1) {
-            $result = $data->paginate($params['pageSize'] > 0 ? $params['pageSize'] : 20);
+        } else if (isset($params['perPage']) && $params['perPage'] > -1) {
+            $result = $data->paginate($params['perPage'] > 0 ? $params['perPage'] : 20);
         } else {
             $result = $data->get();
         }

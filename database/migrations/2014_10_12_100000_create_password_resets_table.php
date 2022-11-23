@@ -17,7 +17,7 @@ return new class extends Migration
     {
         Schema::create(Tables::PASSWORD_RESETS, static function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(User::class)->nullable()->constrained()->nullOnDelete();
+            $table->integer('user_id')->nullable();
             $table->string('code', 8)->nullable()->index();
             $table->string('token');
             $table->dateTimeTz('valid_to')->nullable();

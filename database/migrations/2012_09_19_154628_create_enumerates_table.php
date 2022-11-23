@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('name_alias', 100)->nullable();
             $table->string('enum_key', 50)->nullable()->unique();
             $table->char('type', 50)->nullable();
-            $table->foreignId('type_id')->nullable()->references('id')->on(Tables::ENUMERATES_TYPE)->nullOnDelete();
+            $table->integer('type_id')->nullable();
             $table->char('input_type', 20)->nullable();
             $table->boolean('is_filter')->default(false);
             $table->boolean('status')->default(true);
